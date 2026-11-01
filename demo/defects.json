@@ -1,0 +1,10 @@
+{
+  "purpose": "Evaluation-only manifest. Never passed to AI prompts or exploration responses.",
+  "release_A": "baseline",
+  "release_B": [
+    {"id":"AT-DUP-001","scenario":"rapid_checkout","condition":"Add one vessel, dispatch two immediate checkout clicks in the same browser task.","expected":"1 order","actual":"2 orders; UI does not disable submission and server ignores checkout key."},
+    {"id":"AT-DSC-002","scenario":"discount","condition":"One $48 vessel, STUDIO10, submit once.","expected_total_cents":4320,"actual_total_cents":4560},
+    {"id":"AT-KEY-003","scenario":"keyboard","condition":"Focus discount input and press Tab.","expected_focus":"apply","actual_focus":"checkout"},
+    {"id":"AT-NET-004","scenario":"slow_network","condition":"Open /demo/B?delay=1200, submit once, inspect feedback at 750ms.","expected":"Preparing your order…","actual":"Premature timeout message despite successful order."}
+  ]
+}

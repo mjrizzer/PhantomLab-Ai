@@ -1,0 +1,24 @@
+name: laboratory-checks
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m venv .venv
+      - run: .venv/Scripts/python -m pip install -r requirements.lock.txt
+      - run: npm ci
+      - run: node scripts/fonts.mjs
+      - run: .venv/Scripts/python -m playwright install chromium
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: .venv/Scripts/python -m pytest -q
+      - run: npm run e2e
